@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.wefly.weflycollectlab.models.Token;
 
@@ -18,11 +17,11 @@ public class DBManager {
     private SQLiteDatabase database;
 
     public DBManager(Context context) {
-        this.context=context;
+        this.context = context;
     }
 
-    public DBManager open()throws SQLException {
-        dbHelper = new DatabaseHelper(context,"jwt.db",null,2);
+    public DBManager open() throws SQLException {
+        dbHelper = new DatabaseHelper(context, "jwt.db", null, 1);
         database = dbHelper.getWritableDatabase();
         return this;
     }
@@ -57,10 +56,10 @@ public class DBManager {
     }
 
     /**
-     *  token à récupérer
+     * token à récupérer
      */
     public Cursor selectionner() {
-        String[] columns = new String[] {DatabaseHelper.JWT_VALUE };
+        String[] columns = new String[]{DatabaseHelper.JWT_VALUE};
         Cursor cursor = database.query(DatabaseHelper.TABLE_NAME, columns, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
@@ -68,7 +67,10 @@ public class DBManager {
         return cursor;
     }
 
-    public void deleteAll(){
-        database.execSQL("delete from "+ TABLE_NAME);
+    /**
+     * Supprime tous les enregistrements
+     */
+    public void deleteAll() {
+        database.execSQL("delete from " + TABLE_NAME);
     }
 }

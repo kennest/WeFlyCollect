@@ -4,18 +4,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.wefly.weflycollectlab.activities.LoginActivity;
 import com.wefly.weflycollectlab.helpers.DBManager;
-import com.wefly.weflycollectlab.models.Token;
+import com.wefly.weflycollectlab.interfaces.LoginAsyncResponse;
 import com.wefly.weflycollectlab.utils.Constants;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
-
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -33,11 +27,13 @@ public class LoginTask extends AsyncTask<String, Integer, String> {
     protected String password;
     protected DBManager dao;
     protected String result;
+    public LoginAsyncResponse delegate=null;
 
-    public LoginTask(String username, String password, Context ctx) {
+    public LoginTask(String username, String password, Context ctx,LoginAsyncResponse asyncResponse) {
         this.username = username;
         this.password = password;
         this.context = ctx;
+        delegate=asyncResponse;
     }
 
     @Override
@@ -52,13 +48,14 @@ public class LoginTask extends AsyncTask<String, Integer, String> {
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
-        return "Login Process Finished!";
+        return result;
     }
 
 
     //Fonction de connexion
     //url:l'URL de connexion
     private String login(String url) throws IOException, JSONException {
+        //Creation de l'objet json credentials
         JSONObject json = new JSONObject();
         json.put("username", username.trim());
         json.put("password", password.trim());
@@ -91,6 +88,8 @@ public class LoginTask extends AsyncTask<String, Integer, String> {
             //on ajoute le nouveau token
             dao.ajouter(jo.getString("token"));
 
+            result=jo.getString("token");
+
             Cursor c = dao.selectionner();
             System.out.println("token count:"+c.getCount());
             if (c.moveToFirst()) {
@@ -98,7 +97,6 @@ public class LoginTask extends AsyncTask<String, Integer, String> {
             } else
                 System.out.println("No token Found");
         }
-        Log.i("Response Body 2", result);
         return response.body().toString();
     }
 
@@ -106,6 +104,7 @@ public class LoginTask extends AsyncTask<String, Integer, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         Log.i("Finished-Login", s);
+        delegate.processFinish(s);
     }
 }
 

@@ -12,10 +12,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.checkToken();
-
-        Intent intent=new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(intent);
         setContentView(R.layout.activity_main);
     }
 }
