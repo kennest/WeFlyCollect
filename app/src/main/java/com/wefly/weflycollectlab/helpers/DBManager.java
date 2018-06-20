@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.wefly.weflycollectlab.models.Token;
 
@@ -65,5 +66,9 @@ public class DBManager {
             cursor.moveToFirst();
         }
         return cursor;
+    }
+
+    public void deleteAll(){
+        database.execSQL("delete from "+ TABLE_NAME);
     }
 }

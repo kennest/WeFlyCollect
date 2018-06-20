@@ -17,9 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String TABLE_NAME = "jwt";
     public static final String TABLE_CREATE =
-            "CREATE TABLE " + TABLE_NAME + " (" +
-                    JWT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    JWT_VALUE+ " TEXT);";
+            "CREATE TABLE " + TABLE_NAME + " (" + JWT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + JWT_VALUE+ " TEXT);";
 
     public static final String TABLE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 

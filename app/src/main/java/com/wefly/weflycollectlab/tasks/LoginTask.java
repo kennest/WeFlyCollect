@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.wefly.weflycollectlab.activities.LoginActivity;
 import com.wefly.weflycollectlab.helpers.DBManager;
@@ -78,21 +79,24 @@ public class LoginTask extends AsyncTask<String, Integer, String> {
 
         //Si les credentials sont correct,donc StatusCode=200
         if (response.code() == 200) {
-            Token token = new Token();
             dao = new DBManager(context);
             dao.open();
 
             //On creer un objet json avec le
-            JSONObject jo=new JSONObject(result);
-            token.setValeur(jo.getString("token"));
+            JSONObject jo = new JSONObject(result);
 
+            //On Supprime les enregistrements
+            dao.deleteAll();
+
+            //on ajoute le nouveau token
             dao.ajouter(jo.getString("token"));
 
-            Cursor c=dao.selectionner();
-
-            while(!c.isAfterLast()){
-                Log.i("Stored_Token_value:", dao.selectionner().getString(0));
-            }
+            Cursor c = dao.selectionner();
+            System.out.println("token count:"+c.getCount());
+            if (c.moveToFirst()) {
+                System.out.println("Token 1:"+c.getString(0));
+            } else
+                System.out.println("No token Found");
         }
         Log.i("Response Body 2", result);
         return response.body().toString();
