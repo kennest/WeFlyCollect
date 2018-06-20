@@ -41,7 +41,7 @@
             android:layout_alignParentTop="true"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="username" />
+            android:text="nafiou94@gmail.com" />
 
         <EditText
             android:id="@+id/password"
@@ -51,7 +51,7 @@
             android:layout_alignParentStart="true"
             android:ems="10"
             android:inputType="textPassword"
-            android:text="password" />
+            android:text="admin12345" />
 
         <Button
             android:id="@+id/bt_login"
