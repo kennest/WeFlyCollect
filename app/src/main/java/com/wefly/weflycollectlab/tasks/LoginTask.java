@@ -4,8 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
+
 import com.wefly.weflycollectlab.helpers.DBManager;
 import com.wefly.weflycollectlab.interfaces.LoginAsyncResponse;
+import com.wefly.weflycollectlab.utils.AppController;
 import com.wefly.weflycollectlab.utils.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +41,7 @@ public class LoginTask extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPreExecute() {
-
+        Toast.makeText(AppController.getAppContext(),"Connxion en cours...",Toast.LENGTH_SHORT).show();
     }
 
     @Override

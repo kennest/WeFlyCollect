@@ -7,6 +7,7 @@ import android.database.Cursor;
 
 import com.wefly.weflycollectlab.MainActivity;
 import com.wefly.weflycollectlab.activities.LoginActivity;
+import com.wefly.weflycollectlab.activities.SplashScreenActivity;
 import com.wefly.weflycollectlab.helpers.DBManager;
 
 public class AppController extends Application{
@@ -16,7 +17,6 @@ public class AppController extends Application{
     public void onCreate() {
         super.onCreate();
         appContext = getApplicationContext();
-
         /* If you has other classes that need context object to initialize when application is created,
          you can use the appContext here to process. */
         checkToken();
@@ -28,13 +28,15 @@ public class AppController extends Application{
         dao= dao.open();
         Cursor c = dao.selectionner();
         if (c.getCount()>0) {
+            System.out.println("Base activity token:"+c.getCount());
             System.out.println("Base activity token:"+c.getString(0));
-            Intent main =new Intent(this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            Intent main =new Intent(this, SplashScreenActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(main);
-        } else
+        } else {
             System.out.println("No token Found");
-        Intent main =new Intent(this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);;
-        startActivity(main);
+            Intent main = new Intent(this, LoginActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(main);
+        }
     }
 
     public static Context getAppContext() {
